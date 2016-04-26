@@ -15,7 +15,7 @@ $(document).ready(function(){
 
           $('.dog').html(
             '<img src="' + dogData.photo + '"/>' +
-            '<div class="dog-name">' + dogData.name + ' (' + dogData.age + ')</div>'
+            '<div class="dog-name">' + dogData.name + "<br> " + dogData.age + ' years </div>'
           );
         }
       }
@@ -35,7 +35,7 @@ $.ajax({
       data: {liked: liked},
       success: function(dogData) {
         getNextDog();
-        $('#liked-dogs').append('<li>' + dogData.name + '</li>' );
+        $('#liked-dogs').append('<div class="liked-dog-name"><img src="' + dogData.photo + '"/>' + "<br> " + dogData.name + "<br> " + dogData.age + ' years </div><br>' );
       }
     });
   });
@@ -54,6 +54,22 @@ $.ajax({
       }
     });
   });
+  $('#exit').click(function(event){
+    navigateToContentSection($('#main'));
+  });
+$('#display-liked').click(function(event){
+    navigateToContentSection($('#liked'));
+  });
 });
 
+var contentSectionList = [$('#main'), $('#liked')];
 
+function navigateToContentSection(sectionToDisplay){
+  $.each(contentSectionList, function(i, contentSection){
+    if(contentSection.css('display') != 'none'){
+      contentSection.hide('slow', function(){
+        sectionToDisplay.show('slow');
+      });
+    }
+  });
+}
